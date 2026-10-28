@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Exact Task4 BI Color Scheme - Pure Dark Mode */
+    --background: 220 24% 7.3%; /* #0e1117 */
+    --foreground: 210 40% 98%; /* #f8fafc */
+    --card: 228 16% 12.2%; /* #1a1c24 - var(--background-secondary) */
+    --card-foreground: 210 40% 98%; /* #f8fafc */
+    --popover: 228 16% 13%; /* #1a1c24 */
+    --popover-foreground: 210 40% 98%;
+    --primary: 239 84% 67%; /* #6366f1 */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 228 16% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 226 15% 16%;
+    --muted-foreground: 215 16% 65%; /* #94a3b8 */
+    --accent: 239 84% 67%; /* #6366f1 */
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%; /* #ef4444 */
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 13% 22%; /* rgba(128, 128, 128, 0.22) */
+    --input: 220 13% 24%;
+    --ring: 239 84% 67%; /* #6366f1 */
+    --radius: 0.75rem; /* 12px */
+  }
+
+  * {
+    border-color: rgba(128, 128, 128, 0.22);
+  }
+
+  html {
+    color-scheme: dark;
+    background-color: #0e1117;
+  }
+
+  body {
+    background-color: #0e1117;
+    color: #f8fafc;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+    min-width: 360px;
+    margin: 0;
+    background-image:
+      radial-gradient(ellipse 90% 45% at 50% -10%, rgba(99, 102, 241, 0.08), transparent 70%),
+      radial-gradient(circle at 100% 100%, rgba(14, 17, 23, 0.8), transparent 50%);
+  }
+
+  /* Slim scrollbars inside scrolling containers - exact Task4 BI pattern */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.35);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.5);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@theme {
+  --color-background: #0e1117;
+  --color-foreground: #f8fafc;
+  --color-card: #1a1c24;
+  --color-card-foreground: #f8fafc;
+  --color-popover: #1a1c24;
+  --color-popover-foreground: #f8fafc;
+  --color-primary: #6366f1;
+  --color-primary-foreground: #f8fafc;
+  --color-secondary: #222532;
+  --color-secondary-foreground: #f8fafc;
+  --color-muted: #1e2029;
+  --color-muted-foreground: #94a3b8;
+  --color-accent: #6366f1;
+  --color-accent-foreground: #f8fafc;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #f8fafc;
+  --color-border: rgba(128, 128, 128, 0.22);
+  --color-input: rgba(128, 128, 128, 0.25);
+  --color-ring: #6366f1;
+  --radius-lg: 12px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+}
