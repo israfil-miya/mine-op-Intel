@@ -1,129 +1,98 @@
 # Weyland-Yutani Operations Intelligence
 
-A full-stack mining-output dashboard. The React 18 + TypeScript interface
-displays mine and total-output statistics, interactive line/bar/stacked charts,
-configurable anomaly detectors, and downloadable PDF reports. FastAPI fetches
-and caches a public Google Sheets CSV, performs the analysis, and serves the
-built dashboard from the same service.
+A full-stack mining output analytics dashboard featuring an interactive React + TypeScript frontend, configurable anomaly detection algorithms, and downloadable PDF reports powered by FastAPI.
 
-The upstream spreadsheet is not included or published by this project. Provide
-its public URL through `GOOGLE_SHEET_URL`; the sheet must be viewable by anyone
-with the link.
+## Configuration & Environment Variables
 
-## Formula-driven spreadsheet generator
+Environment variables and secrets are handled on the backend using the [`python-dotenv`](https://github.com/theskumar/python-dotenv) package. The application automatically loads configuration from a `.env` file in the project root via `app.config.Settings.from_env()`.
 
-The [generator workbook](./Weyland_Yutani_Generator.xlsx) is included. It has
-editable controls for mine names, date range, normal/uniform distributions,
-AR(1) smoothing, weekday factors, trend, and four configurable events. It also
-contains an auto-updating chart and a clean `Export` tab with the dashboard
-data contract. The example data includes a three-day November 10 drop and a
-probabilistic November 20 spike.
+### Precedence & Secrets Handling
 
-Yellow cells are inputs. The workbook capacity is 10 mines and 365 days. To
-regenerate the workbook from its Python source:
+- **Process Precedence:** System and shell environment variables (such as Docker `-e` or container orchestration secrets) take precedence over `.env` file entries (`override=False`).
+- **Secret Isolation:** `.env` is excluded from version control via `.gitignore`. A template is provided in `.env.example`.
+- **Server-Side Security:** The spreadsheet URL and API credentials remain strictly on the backend; the frontend client interacts solely with the `/api` endpoints without direct access to upstream secrets.
 
-```powershell
-python -m pip install -e ".[generator]"
-python generator/create_generator.py
+### Environment Settings
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `GOOGLE_SHEET_URL` | Yes (for live data) | — | Public Google Sheets URL with numeric `gid` (e.g. `https://docs.google.com/spreadsheets/d/<sheet-id>/edit?gid=0`) |
+| `SHEET_CACHE_TTL_SECONDS` | No | `300` | In-memory cache time-to-live in seconds (`0` disables caching) |
+| `SHEET_HTTP_TIMEOUT_SECONDS` | No | `15` | Request timeout for fetching sheet data in seconds |
+
+> **Note:** The sheet requires a date column (`Date`, `Day`, `Timestamp`, or `Datetime`) and at least one numeric measurement column. The `gid` parameter must be numeric (`0` identifies the first tab).
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.11+
+- Node.js 20+
+
+### Setup
+
+1. Copy `.env.example` to `.env` and configure the spreadsheet URL:
+
+```bash
+cp .env.example .env
 ```
 
-Upload the `.xlsx` file to Google Drive and open it using Google Sheets. Let
-Sheets convert the formulas and chart, then verify they recalculate after
-changing a control. Share settings are managed in Google Drive; for the
-dashboard, grant at least “Anyone with the link” viewer access and set
-`GOOGLE_SHEET_URL` to the sheet URL. If you also choose public editing, anyone
-with that link can change the workbook.
+2. Install dependencies, build the frontend, and run the backend:
 
-## Run locally
-
-Requires Python 3.11+ and Node.js 20+.
-
-Create a `.env` file in the project root (next to `pyproject.toml`) and put
-your Google Sheets URL there:
-
-```dotenv
-GOOGLE_SHEET_URL=https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?gid=YOUR_EXPORT_TAB_ID
-```
-
-The backend loads this file automatically at startup. Existing shell
-environment variables take precedence over `.env`. Keep `.env` private; it is
-excluded from version control.
-
-```powershell
+```bash
+# Install backend dependencies
 python -m pip install -e ".[dev]"
-Set-Location frontend
+
+# Build frontend
+cd frontend
 npm ci
 npm run build
-Set-Location ..
+cd ..
+
+# Start FastAPI server (serves API and built frontend)
 python -m uvicorn app.main:app --app-dir backend --reload
 ```
 
-Open `http://localhost:8000`. FastAPI serves `frontend/dist` when it exists.
-For frontend hot reload, run the API as above and start Vite in a second
-terminal with `Set-Location frontend; npm run dev`; Vite proxies `/api` to
-`http://localhost:8000`.
+Open `http://localhost:8000`.
 
-Optional environment settings:
-
-* `SHEET_CACHE_TTL_SECONDS` (default `300`; `0` disables cache reuse)
-* `SHEET_HTTP_TIMEOUT_SECONDS` (default `15`)
-
-The CSV needs one date column (`Date`, `Day`, `Timestamp`, or `Datetime`; other
-parseable date headers are accepted) and at least one numeric measurement
-column. A computed `Total` series sums the mine columns per date; an existing
-sheet `Total` is replaced to avoid double-counting. Invalid, private, and
-non-CSV responses return actionable errors.
+For frontend development with hot reloading, start the Vite dev server in `frontend/` (`npm run dev`), which proxies `/api` requests to `http://localhost:8000`.
 
 ## Docker
 
-The multi-stage image builds the React app and runs it with FastAPI:
-
-```powershell
+```bash
 docker build -t weyland-yutani-dashboard .
-docker run --rm -p 8000:8000 `
-  -e GOOGLE_SHEET_URL="https://docs.google.com/spreadsheets/d/<sheet-id>/edit?gid=0" `
-  weyland-yutani-dashboard
+docker run --rm -p 8000:8000 -e GOOGLE_SHEET_URL="https://docs.google.com/spreadsheets/d/<sheet-id>/edit?gid=0" weyland-yutani-dashboard
 ```
 
-## API
+## API Reference
 
-Interactive OpenAPI docs: `http://localhost:8000/docs`.
+Interactive OpenAPI documentation is available at `http://localhost:8000/docs`.
 
-* `GET /api/health` — service and source-configuration status (does not fetch
-  the sheet).
-* `GET /api/meta` — row count, date range, source series and cache settings.
-* `GET /api/analysis` — statistics, trend values, four detector results,
-  points for plotting, and anomaly episodes.
-* `GET /api/report` — generated PDF with the selected line, bar, stacked, or
-  scatter chart, statistics,
-  detector findings and episode notes.
+### Endpoints
 
-Analysis/report query parameters:
+- `GET /api/health` — Service health and sheet source configuration status.
+- `GET /api/meta` — Dataset metadata, column schemas, and date range (`?refresh=true` to bypass cache).
+- `GET /api/analysis` — Time-series metrics, polynomial trend fit, anomaly detection, and consolidated episodes.
+- `GET /api/report` — Download an analytics report as a PDF.
 
-| Parameter | Default | Description |
-|---|---:|---|
-| `basis` | `raw` | Run detectors against raw values or weekday/trend-adjusted residuals |
-| `series` | all | Repeat or comma-separate series names; includes `Total` |
-| `trend_degree` | `2` | Polynomial degree, 1–4 |
-| `iqr_k` | `1.5` | IQR fence multiplier |
-| `z_threshold` | `3` | Absolute z-score cutoff |
-| `ma_window` | `7` | Moving-average window (at least 2) |
-| `ma_threshold_pct` | `25` | Percent distance from the moving average |
-| `ma_centered` | `false` | Use a centered rather than trailing moving average |
-| `grubbs_alpha` | `0.05` | Significance for iterative two-sided Grubbs testing |
-| `refresh` | `false` | Bypass the sheet cache |
+### Query Parameters
 
-The dashboard exposes controls for each detector, detection basis, series,
-chart type, and polynomial trendline. Episode rows can be selected to focus the
-chart on the affected series. Summary statistics and report charts use raw
-outputs; adjusted mode changes the detector inputs. Standard deviation uses
-population `ddof=0`; quartiles use linear interpolation.
+| Parameter | Applicable Endpoints | Default | Description |
+|---|---|---:|---|
+| `chart_type` | `/api/report` | `line` | Chart visualization: `line`, `bar`, `stacked`, or `scatter` |
+| `basis` | `/api/analysis`, `/api/report` | `raw` | Data basis: `raw` or `adjusted` (weekday & trend detrended) |
+| `series` | `/api/analysis`, `/api/report` | all | Series names (repeatable or comma-separated, e.g. `series=Mine 1,Mine 2`) |
+| `trend_degree` | `/api/analysis`, `/api/report` | `2` | Polynomial trend degree (`1` to `4`) |
+| `iqr_k` | `/api/analysis`, `/api/report` | `1.5` | IQR multiplier threshold (`> 0`) |
+| `z_threshold` | `/api/analysis`, `/api/report` | `3.0` | Z-score threshold (`> 0`) |
+| `ma_window` | `/api/analysis`, `/api/report` | `7` | Moving average window in days (`>= 2`) |
+| `ma_threshold_pct` | `/api/analysis`, `/api/report` | `25.0` | Moving average percent deviation threshold (`>= 0`) |
+| `ma_centered` | `/api/analysis`, `/api/report` | `false` | Window alignment: `true` for centered, `false` for trailing |
+| `grubbs_alpha` | `/api/analysis`, `/api/report` | `0.05` | Grubbs test two-sided significance level (`0 < α < 1`) |
+| `refresh` | `/api/analysis`, `/api/report` | `false` | Force reload from Google Sheets and refresh the cache |
 
-## Tests
+## Testing
 
-```powershell
+```bash
 python -m pytest
 ```
-
-The tests cover CSV validation and caching, detector parameter behavior,
-series aggregation, episode grouping, the analysis API, and PDF generation.

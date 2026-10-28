@@ -3,6 +3,8 @@
 __pycache__
 *.py[cod]
 .pytest_cache
-.env
+.env*
+*.tsbuildinfo
+backend/tests
 frontend/node_modules
 frontend/dist

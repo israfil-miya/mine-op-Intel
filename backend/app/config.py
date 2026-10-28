@@ -10,13 +10,15 @@ from dotenv import load_dotenv
 @dataclass(frozen=True)
 class Settings:
     google_sheet_url: str | None
-    cache_ttl_seconds: int
-    http_timeout_seconds: float
+    cache_ttl_seconds: int = 300
+    http_timeout_seconds: float = 15.0
 
     @classmethod
     def from_env(cls) -> "Settings":
         project_root = Path(__file__).resolve().parents[2]
-        load_dotenv(project_root / ".env", override=False)
+        env_path = project_root / ".env"
+        load_dotenv(env_path, override=False)
+
         url = os.getenv("GOOGLE_SHEET_URL", "").strip() or None
         try:
             ttl = max(0, int(os.getenv("SHEET_CACHE_TTL_SECONDS", "300")))
