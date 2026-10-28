@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+﻿import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableHeader,
@@ -105,7 +105,7 @@ export function SeriesStatsTable({
                   className={`cursor-pointer transition-colors ${
                     isSelected
                       ? "bg-indigo-950/40 text-indigo-200 border-l-2 border-l-[#6366f1] font-semibold"
-                      : "hover:bg-[#222532]/60"
+                      : "hover:bg-secondary/60"
                   }`}
                 >
                   <TableCell className="font-medium text-foreground pl-4 sm:pl-5 flex items-center gap-2">
@@ -135,7 +135,7 @@ export function SeriesStatsTable({
                       <TableCell key={detector} className="text-right font-mono pr-4 last:pr-5">
                         {count > 0 ? (
                           <span
-                            className="inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-white shadow-2xs"
+                            className="inline-flex items-center justify-center min-w-5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-white shadow-2xs"
                             style={{ backgroundColor: detectorColors[detector] }}
                           >
                             {count}
@@ -153,10 +153,10 @@ export function SeriesStatsTable({
             {totalItem && (
               <TableRow
                 onClick={() => onSelectSeries("Total")}
-                className={`border-t-2 border-[rgba(128,128,128,0.25)] bg-[#1e202a] font-semibold cursor-pointer ${
+                className={`border-t-2 border-input bg-[#1e202a] font-semibold cursor-pointer ${
                   selectedSeries === "Total"
                     ? "bg-indigo-950/50 text-indigo-200 border-l-2 border-l-[#6366f1]"
-                    : "hover:bg-[#222532]/80"
+                    : "hover:bg-secondary/80"
                 }`}
               >
                 <TableCell className="pl-4 sm:pl-5 flex items-center gap-2 text-foreground font-semibold">
@@ -192,7 +192,7 @@ export function SeriesStatsTable({
                     <TableCell key={detector} className="text-right font-mono pr-4 last:pr-5">
                       {count > 0 ? (
                         <span
-                          className="inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.5 rounded-full text-[10px] font-bold text-white shadow-2xs"
+                          className="inline-flex items-center justify-center min-w-5 px-1.5 py-0.5 rounded-full text-[10px] font-bold text-white shadow-2xs"
                           style={{ backgroundColor: detectorColors[detector] }}
                         >
                           {count}

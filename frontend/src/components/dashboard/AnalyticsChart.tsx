@@ -250,7 +250,7 @@ export function AnalyticsChart({
       </CardHeader>
 
       <CardContent className="p-4 sm:p-5 pt-0 space-y-3">
-        <div className="h-[340px] sm:h-[380px] w-full rounded-lg border border-border/50 bg-background/50 p-1">
+        <div className="h-85 sm:h-95 w-full rounded-lg border border-border/50 bg-background/50 p-1">
           <ReactEChartsCore
             echarts={echarts}
             option={chartOption}
@@ -272,10 +272,10 @@ export function AnalyticsChart({
                   key={detector}
                   type="button"
                   onClick={() => onToggleDetector(detector)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-[8px] text-[11px] font-semibold tracking-wide transition-all cursor-pointer border ${
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[11px] font-semibold tracking-wide transition-all cursor-pointer border ${
                     active
                       ? "bg-[#6366f1]/20 text-[#f8fafc] border-[#6366f1] shadow-xs"
-                      : "bg-[#1a1c24] text-[rgba(148,163,184,0.7)] border-[rgba(128,128,128,0.25)] hover:text-[#f8fafc] hover:border-[rgba(128,128,128,0.4)]"
+                      : "bg-[#1a1c24] text-[rgba(148,163,184,0.7)] border-input hover:text-[#f8fafc] hover:border-[rgba(128,128,128,0.4)]"
                   }`}
                 >
                   <span

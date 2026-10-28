@@ -1,9 +1,9 @@
-import { Sparkles } from "lucide-react";
+﻿import { Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function TelemetryLoadingState() {
   return (
-    <Card className="border-[rgba(128,128,128,0.22)] p-12 text-center shadow-xs">
+    <Card className="border-border p-12 text-center shadow-xs">
       <CardContent className="space-y-3">
         <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/15 text-[#818cf8] animate-pulse">
           <Sparkles className="h-6 w-6" />

@@ -102,7 +102,7 @@ export function AnomalyEpisodesTable({
               />
             </div>
 
-            <div className="flex items-center rounded-[8px] border border-[rgba(128,128,128,0.22)] bg-[#141720] p-0.5">
+            <div className="flex items-center rounded-sm border border-border bg-[#141720] p-0.5">
               <button
                 type="button"
                 onClick={() => setDirectionFilter("all")}
@@ -199,7 +199,7 @@ export function AnomalyEpisodesTable({
                       className={`cursor-pointer transition-colors ${
                         isHighlighted
                           ? "bg-indigo-950/40 text-indigo-200 border-l-2 border-l-[#6366f1] font-semibold"
-                          : "hover:bg-[#222532]/60"
+                          : "hover:bg-secondary/60"
                       }`}
                     >
                       <TableCell className="pl-4 sm:pl-5">

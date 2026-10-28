@@ -1,4 +1,4 @@
-import { Calendar, Database, RefreshCw } from "lucide-react";
+﻿import { Calendar, Database, RefreshCw } from "lucide-react";
 import type { DashboardMeta } from "@/types";
 
 interface TelemetryBannerProps {
@@ -29,12 +29,12 @@ export function TelemetryBanner({ metaData }: TelemetryBannerProps) {
       <div className="flex items-center gap-2 sm:gap-3 flex-wrap text-xs font-mono">
         {metaData ? (
           <>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] border border-[rgba(128,128,128,0.22)] bg-[#1a1c24] shadow-2xs">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-border bg-[#1a1c24] shadow-2xs">
               <Database className="h-3.5 w-3.5 text-[#818cf8]" />
               <span className="text-muted-foreground">Observations:</span>
               <strong className="text-foreground">{metaData.row_count} days</strong>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] border border-[rgba(128,128,128,0.22)] bg-[#1a1c24] shadow-2xs">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-border bg-[#1a1c24] shadow-2xs">
               <Calendar className="h-3.5 w-3.5 text-[#818cf8]" />
               <span className="text-muted-foreground">Range:</span>
               <strong className="text-foreground">

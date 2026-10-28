@@ -1,4 +1,4 @@
-import { RotateCcw, SlidersHorizontal } from "lucide-react";
+﻿import { RotateCcw, SlidersHorizontal } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -36,7 +36,7 @@ export function ControlPanel({
   const isDirty = JSON.stringify(params) !== JSON.stringify(defaultParams);
 
   return (
-    <Card className="border-[rgba(128,128,128,0.22)] shadow-xs">
+    <Card className="border-border shadow-xs">
       <CardHeader className="p-4 pb-3 flex flex-row items-center justify-between space-y-0">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-[#818cf8]" />
@@ -163,7 +163,7 @@ export function ControlPanel({
                 {params.ma_centered ? "Centered" : "Trailing"}
               </span>
             </label>
-            <div className="grid grid-cols-2 gap-1 rounded-[8px] border border-[rgba(128,128,128,0.22)] bg-[#141720] p-1">
+            <div className="grid grid-cols-2 gap-1 rounded-sm border border-border bg-[#141720] p-1">
               <Button
                 type="button"
                 variant={params.ma_centered ? "default" : "ghost"}

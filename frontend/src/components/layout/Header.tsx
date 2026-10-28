@@ -1,4 +1,4 @@
-import { Factory, RefreshCw, Download } from "lucide-react";
+﻿import { Factory, RefreshCw, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export function Header({ isFetching, isExporting, onRefresh, onExport, canExport }: HeaderProps) {
   return (
-    <header className="border-b border-[rgba(128,128,128,0.22)] bg-[rgba(148,163,184,0.02)] backdrop-blur-[12px] sticky top-0 z-40 transition-colors">
+    <header className="border-b border-border bg-[rgba(148,163,184,0.02)] backdrop-blur-[12px] sticky top-0 z-40 transition-colors">
       <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
           <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-gradient-to-br from-indigo-950 via-[#1a1c24] to-[#0e1117] text-white shadow-md ring-1 ring-indigo-500/30">
@@ -23,7 +23,7 @@ export function Header({ isFetching, isExporting, onRefresh, onExport, canExport
                 WEYLAND-YUTANI
               </span>
             </div>
-            <p className="text-[10px] tracking-widest text-[#94a3b8] font-mono uppercase">
+            <p className="text-[10px] tracking-widest text-muted-foreground font-mono uppercase">
               Operations Intelligence & Anomaly Telemetry
             </p>
           </div>
