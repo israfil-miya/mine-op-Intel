@@ -4,14 +4,6 @@ A full-stack mining output analytics dashboard featuring an interactive React + 
 
 ## Configuration & Environment Variables
 
-### Precedence & Secrets Handling
-
-- **Process Precedence:** System and shell environment variables (such as Docker `-e` or container orchestration secrets) take precedence over `.env` file entries (`override=False`).
-- **Secret Isolation:** `.env` is excluded from version control via `.gitignore`. A template is provided in `.env.example`.
-- **Server-Side Security:** The spreadsheet URL and API credentials remain strictly on the backend; the frontend client interacts solely with the `/api` endpoints without direct access to upstream secrets.
-
-### Environment Settings
-
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `GOOGLE_SHEET_URL` | Yes (for live data) | — | Public Google Sheets URL with numeric `gid` (e.g. `https://docs.google.com/spreadsheets/d/<sheet-id>/edit?gid=0`) |
