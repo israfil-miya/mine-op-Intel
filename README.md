@@ -4,8 +4,6 @@ A full-stack mining output analytics dashboard featuring an interactive React + 
 
 ## Configuration & Environment Variables
 
-Environment variables and secrets are handled on the backend using the [`python-dotenv`](https://github.com/theskumar/python-dotenv) package. The application automatically loads configuration from a `.env` file in the project root via `app.config.Settings.from_env()`.
-
 ### Precedence & Secrets Handling
 
 - **Process Precedence:** System and shell environment variables (such as Docker `-e` or container orchestration secrets) take precedence over `.env` file entries (`override=False`).
